@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/docs
+/public/data_file
 /storage/*.key
 /vendor
 .env

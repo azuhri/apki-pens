@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\LoginService\LoginServiceInterface;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
 {
+    private $loginService;
+    public function __construct(
+        LoginServiceInterface $loginService
+    )
+    {
+        $this->loginService = $loginService;
+    }
     /**
      * Display login page.
      *
@@ -21,20 +28,29 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('dashboard');
+        try {
+            $request->validate([
+                'user_identity' => ['required'],
+                'password' => ['required'],
+            ], [
+                "user_identity.required" => "Masukan email atau No HP Anda",
+                "password.required" => "Masukan password Anda",
+            ]);
+    
+            if(is_numeric($request->user_identity) == true) {
+                $auth = $this->loginService->loginByPhonenumber($request->user_identity, $request->password);
+            } else {
+                $auth = $this->loginService->loginByEmail($request->user_identity, $request->password);
+            }
+            
+            if($auth) {
+                return \redirect()->to("dashboard");
+            }
+            
+            throw new Exception("Email atau password salah");
+        } catch (\Throwable $th) {
+            return back()->with("error", str_replace("(and 1 more error)", "",$th->getMessage()));
         }
-
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
     }
 
     public function logout(Request $request)

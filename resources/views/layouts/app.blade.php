@@ -12,13 +12,16 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{asset('assets/css/nucleo-icons.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="assets/css/argon-dashboard.css" rel="stylesheet" />
+    <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css" integrity="sha256-h2Gkn+H33lnKlQTNntQyLXMWq7/9XI2rlPCsLsVcUBs=" crossorigin="anonymous">
+
+    @yield("css")
 
     <!-- Datatables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css">
@@ -50,10 +53,11 @@
     @endauth
 
     <!--   Core JS Files   -->
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
-    <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js" integrity="sha256-4lhPGIWv8kmCP7JRGJE4IdRod2IdQEZPui6f0uICZ6w=" crossorigin="anonymous"></script>
+    <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

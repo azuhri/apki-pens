@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
                 "type_user" => "SAPRAS",
                 "phonenumber" => "085156354339",
                 "email" => "sapras@pens.ac.id",
-                // "password" => \bcrypt("adminadmin"),
+                "password" => "adminadmin",
             ],
         ];
 

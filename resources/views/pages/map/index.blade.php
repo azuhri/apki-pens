@@ -7,8 +7,9 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Data Denah</h6>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewMap">Denah
-                            Baru</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewMap">
+                            <svg style="margin-right:4px" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+                            Buat Denah</button>
                         <div class="modal fade" id="modalAddNewMap" tabindex="-1" aria-labelledby="modalAddNewMapLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg">

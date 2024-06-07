@@ -4,15 +4,41 @@
     @include('layouts.navbars.auth.topnav', ['title' => 'Form Laporan'])
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Form Laporan</p>
                         </div>
                     </div>
+
                     <div class="card-body">
-                        <p class="text-uppercase text-sm">Input Data Laporan</p>
+                        <div class="accordion accordion-flush" id="accordionExample">
+                            @php
+                                $counter = 0;
+                            @endphp
+                            @foreach ($maps as $map)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="headingOne">
+                                        <button class="text-uppercase rounded-2 border-2 border-1 accordion-button w-100 btn text-secondary"
+                                            type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#map_{{ $map->id }}" aria-expanded="true"
+                                            aria-controls="map_{{ $map->id }}">
+                                            Lihat Denah  &nbsp;<span class="text-primary">{{ $map->name }}</span> 
+                                        </button>
+                                    </h2>
+                                    <div id="map_{{ $map->id }}"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <a target="_blank" href="{{ url('/') . '/' . $map->path }}" class="w-100">
+                                                <img class="w-100" src="{{ asset($map->path) }}" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">

@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ChangePassword;
+use App\Http\Controllers\FormReportController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MapController;
 
@@ -52,7 +53,22 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/{page}', [PageController::class, 'index'])->name('page');
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
+	Route::prefix("user")
+		// ->middleware("admin.check")
+		->name("user.")
+		->group(function () {
+			Route::prefix("form-report")
+				->controller(FormReportController::class)
+				->name("form-report.")
+				->group(function () {
+					Route::get("/", "index")->name("index");
+					Route::get("/datalist", "getDatalist")->name("list");
+					Route::post("store", "store")->name("store");
+				});
+		});
+
 	Route::prefix("admin")
+		->middleware("admin.check")
 		->name("admin.")
 		->group(function () {
 			Route::prefix("map")
@@ -82,6 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
 					Route::get("/", "index")->name("index");
 					Route::get("/datalist", "getDatalist")->name("list");
 					Route::post("store", "store")->name("store");
+					Route::post("update", "update")->name("update");
 					Route::delete("destroy/{id}", "destroy")->name("destroy");
 				});
 		});

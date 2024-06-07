@@ -18,7 +18,7 @@ class MapRepository implements MapRepositoryInterface {
     public function createOrUpdate($request, $id = 0) {
         if($id) {
             $findMap = Map::find($id);
-            if($findMap) {
+            if($findMap && $request["map"]) {
                 $this->fileService->destroyFile($findMap->path);
             } 
 

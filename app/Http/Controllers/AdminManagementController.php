@@ -32,12 +32,18 @@ class AdminManagementController extends Controller
     {
         try {
             $request->validate([
-                "name" => ["required", "max:50", Rule::unique('users', 'email')->ignore($request->id)],
-                "email" => ["required", "max:50"],
-                "phonenumber" => ["required", "max:15"],
-                "password" => ["required", "max:15"],
-                "confirm_password" => ["required", "max:15"],
-            ], []);
+                "name" => ["required", "max:50"],
+                "email" => ["required", "max:50", Rule::unique('users', 'email')->ignore($request->id)],
+                "phonenumber" => ["required", "max:15", Rule::unique('users', 'phonenumber')->ignore($request->id)],
+                "password" => ["required"],
+                "confirm_password" => ["required"],
+            ], [
+                "*.required" => "Silahkan isi data secara lengkap",
+                "name.max" => "Nama terlalu panjang",
+                "email.max" => "Email terlalu panjang",
+                "email.unique" => "Email telah digunakan",
+                "phonenumber.unique" => "No HP telah digunakan",
+            ]);
 
             if($request->password != $request->confirm_password) {
                 throw new Exception("Konfirmasi password tidak cocok!");
@@ -47,11 +53,31 @@ class AdminManagementController extends Controller
             $request->type_user = "SAPRAS";
             $data = $this->userRepo->createUser($request);
 
-            // $data = $this->userRepo->createOrUpdate([
-            //     "updated_by" => Auth::id(),
-            //     ...$request->toArray(),
-            // ], $request->id);
-            return $this->json->responseDataWithMessage($data, "Berhasil menambahkan denah baru");
+            return $this->json->responseDataWithMessage($data, "Berhasil menambahkan admin baru");
+        } catch (\Throwable $th) {
+            return $this->json->responseError($th->getMessage());
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $request->validate([
+                "id" => ["required", "numeric"],
+                "name" => ["required", "max:50"],
+                "email" => ["required", "max:50", Rule::unique('users', 'email')->ignore($request->id)],
+                "phonenumber" => ["required", "max:15", Rule::unique('users', 'phonenumber')->ignore($request->id)],
+            ], [
+                "*.required" => "Silahkan isi data secara lengkap",
+                "name.max" => "Nama terlalu panjang",
+                "email.max" => "Email terlalu panjang",
+                "email.unique" => "Email telah digunakan",
+                "phonenumber.unique" => "No HP telah digunakan",
+            ]);
+
+            $data = $this->userRepo->updateUser($request, $request->id);
+
+            return $this->json->responseDataWithMessage($data, "Berhasil menyimpan data admin");
         } catch (\Throwable $th) {
             return $this->json->responseError($th->getMessage());
         }
@@ -62,7 +88,7 @@ class AdminManagementController extends Controller
         try {
             $isDeleted = $this->userRepo->deleteById($id);
 
-            return $this->json->responseDataWithMessage(["is_deleted" => $isDeleted], "Berhasil menghapus denah!");
+            return $this->json->responseDataWithMessage(["is_deleted" => $isDeleted], "Berhasil menghapus admin!");
         } catch(Throwable $th) {
             return $this->json->responseError($th->getMessage());
         }

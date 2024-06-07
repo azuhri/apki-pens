@@ -7,8 +7,9 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Data Lokasi</h6>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewLocation">Lokasi
-                            Baru</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewLocation">
+                            <svg style="margin-right: 4px" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            Buat Lokasi</button>
                         <div class="modal fade" id="modalAddNewLocation" tabindex="-1" aria-labelledby="modalAddNewLocationLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">

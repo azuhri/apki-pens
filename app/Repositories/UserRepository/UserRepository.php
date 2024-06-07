@@ -16,7 +16,7 @@ class UserRepository implements UserRepositoryInterface {
             "type_user" => $request->type_user,
             "email" => $request->email, 
             "phonenumber" => $request->phonenumber,
-            "password" => bcrypt($request->password),
+            "password" => $request->password,
         ]);   
     }
 
@@ -73,5 +73,15 @@ class UserRepository implements UserRepositoryInterface {
     public function isEmailAvailable($email)
     {
         return User::where("email", $email)->first();
+    }
+
+    public function deleteById($id) {
+        $findData = User::find($id);
+        if($findData) {
+            $findData->delete();
+            return true;
+        }
+
+        return \false;
     }
 }

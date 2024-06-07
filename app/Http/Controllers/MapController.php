@@ -29,7 +29,9 @@ class MapController extends Controller
     }
 
     public function index() {
-        return view("pages.map.index");
+        return view("pages.map.index", [
+            "maps" => Map::all(),
+        ]);
     }
 
     public function store(Request $request) {
@@ -40,7 +42,7 @@ class MapController extends Controller
                 "map" => ["required_without:map_id"], 
             ], [
                 "name.required" => "Silahkan isi nama denah dahulu",
-                "map.required" => "Silahkan upload gambar denah dahulu",
+                "map.required_without" => "Silahkan upload gambar denah dahulu",
                 "map.unique" => "Nama denah sudah dibuat sebelumnya",
             ]);
 

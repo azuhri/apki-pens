@@ -2,7 +2,7 @@
     <table class="table align-items-center mb-0">
         <thead>
             <tr>
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Denah
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama Lokasi
                 </th>
                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                     Dibuat Oleh</th>
@@ -18,7 +18,7 @@
             @endif
             @foreach ($datas as $data)
                 <tr>
-                    <td class="text-center">{{ $data->location_name }}</td>
+                    <td class="text-left">{{ $data->location_name }}</td>
                     <td class="text-center">{{$data->updateBy->name ?? ""}}</td>
                     <td class="">
                         <div class="d-flex justify-content-center">

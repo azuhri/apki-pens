@@ -7,8 +7,9 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Data Admin</h6>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewAdmin">Lokasi
-                            Baru</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddNewAdmin">
+                            <svg style="margin-right: 4px" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            Buat Admin</button>
                         <div class="modal fade" id="modalAddNewAdmin" tabindex="-1" aria-labelledby="modalAddNewAdminLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
@@ -27,23 +28,23 @@
                                         <form>
                                             <div class="mb-3">
                                                 <label for="name" class="form-label">Nama</label>
-                                                <input type="text" class="form-control" name="Masukan nama" id="name">
+                                                <input type="text" class="form-control" placeholder="Masukan nama" id="name">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email</label>
-                                                <input type="text" class="form-control" name="Masukan email" id="email">
+                                                <input type="text" class="form-control" placeholder="Masukan email" id="email">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="phonenumber" class="form-label">No HP</label>
-                                                <input type="number" class="form-control" name="Masukan No HP" id="phonenumber">
+                                                <input type="number" class="form-control" placeholder="Masukan No HP" id="phonenumber">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" name="Masukan password" id="password">
+                                                <input type="password" class="form-control" placeholder="Masukan password" id="password">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="confirm_password" class="form-label">Konfirmasi Password</label>
-                                                <input type="password" class="form-control" name="Masukan konfirmasi password" id="confirm_password">
+                                                <input type="password" class="form-control" placeholder="Masukan konfirmasi password" id="confirm_password">
                                             </div>
                                         </form>
                                     </div>
@@ -67,29 +68,37 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalUpdateLocation" tabindex="-1" aria-labelledby="modalUpdateLocationLabel" aria-hidden="true">
+    <div class="modal fade" id="modalUpdateAdmin" tabindex="-1" aria-labelledby="modalUpdateAdminLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalUpdateLocationLabel">Edit Lokasi</h5>
+                    <h5 class="modal-title" id="modalUpdateAdminLabel">Edit Admin</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div style="display: none" id="textErrorModalUpdateLocation"
+                    <div style="display: none" id="textErrorModalUpdateAdmin"
                         class="alert text-center alert-danger font-weight-bold text-white" role="alert">
                         Test
                     </div>
                     <form>
-                        <input type="hidden" id="location_id">
+                        <input type="hidden" id="id">
                         <div class="mb-3">
                             <label for="map_name" class="form-label">Nama Lokasi</label>
-                            <input type="text" class="form-control" placeholder="Masukan nama lokasi" id="edit_location_name">
+                            <input type="text" class="form-control" placeholder="Masukan nama lokasi" id="edit_name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" placeholder="Masukan email" id="edit_email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phonenumber" class="form-label">No HP</label>
+                            <input type="number" class="form-control" placeholder="Masukan No HP" id="edit_phonenumber">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" onclick="updateLocation(this);" class="btn btn-primary">Simpan</button>
+                    <button type="button" onclick="updateAdmin(this);" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
@@ -160,12 +169,14 @@
             });
         }
 
-        const updateLocation = (self) => {
+        const updateAdmin = (self) => {
             let dataForm = new FormData();
-            let locationName = $("#edit_location_name").val();
-            let locationId = $("#location_id").val();
+            let id = $("#id").val();
+            let name = $("#edit_name").val();
+            let email = $("#edit_email").val();
+            let phonenumber = $("#edit_phonenumber").val();
             $.ajax({
-                url: '{{ route('admin.management.store') }}',
+                url: '{{ route('admin.management.update') }}',
                 type: "POST",
                 dataType: "json",
                 beforeSend: function() {
@@ -174,20 +185,22 @@
                     </div>`);
                 },
                 data: {
-                    location_name: locationName,
-                    id: locationId,
+                    id,
+                    name,
+                    email,
+                    phonenumber,
                     _token: '{{csrf_token()}}',
                 },
                 success: function(res) {
-                    $("#modalUpdateLocation").modal("hide");
+                    $("#modalUpdateAdmin").modal("hide");
                     getData();
                 },
                 error: function(err) {
                     let errorMessage = err.responseJSON.errors;
-                    $("#textErrorModalUpdateLocation").html(errorMessage);
-                    $("#textErrorModalUpdateLocation").show(200);
+                    $("#textErrorModalUpdateAdmin").html(errorMessage);
+                    $("#textErrorModalUpdateAdmin").show(200);
                     setTimeout(() => {
-                        $("#textErrorModalUpdateLocation").hide(200);
+                        $("#textErrorModalUpdateAdmin").hide(200);
                     }, 3000);
                 },
                 complete: function() {
@@ -197,10 +210,10 @@
         }
 
 
-        const deleteLocation = (id) => {
+        const deleteAdmin = (id) => {
             Swal.fire({
                 title: "Konfirmasi!",
-                text: "Apakah Anda ingin menghapus lokasi ini?",
+                text: "Apakah Anda ingin menghapus Admin ini?",
                 showCancelButton: true,
                 cancelButtonText: "BATAL",
                 confirmButtonText: "HAPUS",
@@ -241,9 +254,11 @@
 
         const openModalUpdate = (self, data) => {
             let json = JSON.parse(data);
-            $("#edit_location_name").val(json.location_name)
-            $("#location_id").val(json.id);
-            $("#modalUpdateLocation").modal("show");
+            $("#edit_name").val(json.name)
+            $("#edit_email").val(json.email)
+            $("#edit_phonenumber").val(json.phonenumber)
+            $("#id").val(json.id);
+            $("#modalUpdateAdmin").modal("show");
         }
     </script>
 @endpush

@@ -62,8 +62,8 @@
                     <a class="nav-link {{ str_contains(request()->url(), 'location') == true ? 'active' : '' }}"
                         href="{{ route("admin.location.index") }}">
                         <div
-                            class="icon icon-shape icon-md border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-collection text-warning text-sm opacity-10"></i>
+                            class="text-primary icon icon-shape icon-md border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                         </div>
                         <span class="nav-link-text ms-1">Daftar Lokasi</span>
                     </a>
@@ -90,8 +90,8 @@
             </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link {{ str_contains(request()->url(), 'form-laporan') == true ? 'active' : '' }}"
-                        href="{{ route('page', ['page' => 'form-laporan']) }}">
+                    <a class="nav-link {{ str_contains(request()->url(), 'form-report') == true ? 'active' : '' }}"
+                        href="{{ route('user.form-report.index') }}">
                         <div
                             class="icon icon-shape icon-md border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-fat-add text-warning text-sm opacity-10"></i>

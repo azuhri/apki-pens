@@ -25,7 +25,7 @@
                     <td class="text-center">{{ $data->phonenumber }}</td>
                     <td class="">
                         <div class="d-flex justify-content-center">
-                            <a href="javascript:void(0);" onclick="deleteLocation({{ $data->id }})"
+                            <a href="javascript:void(0);" onclick="deleteAdmin({{ $data->id }})"
                                 class="btn m-0 btn-xs btn-danger d-flex align-items-center justify-content-evenly">
                                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor"
                                     stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"

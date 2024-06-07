@@ -18,5 +18,6 @@ interface UserRepositoryInterface
     public function isExistEmail($userId, $email);
     public function isPhonenumberlAvailable($phonenumber);
     public function isEmailAvailable($email);
+    public function deleteById($id);
 
 }

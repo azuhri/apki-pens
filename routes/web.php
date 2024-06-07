@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
 				->name("form-report.")
 				->group(function () {
 					Route::get("/", "index")->name("index");
+					Route::get("/create", "create")->name("create");
 					Route::get("/datalist", "getDatalist")->name("list");
 					Route::post("store", "store")->name("store");
 				});

@@ -20,7 +20,7 @@
         }
 
         #cover {
-            animation: zoomAnimation 5s infinite alternate;
+            animation: zoomAnimation 8s infinite alternate ease-in-out;
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;

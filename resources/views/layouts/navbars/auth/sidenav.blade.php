@@ -90,8 +90,8 @@
             </li>
             @else
                 <li class="nav-item">
-                    <a class="nav-link {{ str_contains(request()->url(), 'form-report') == true ? 'active' : '' }}"
-                        href="{{ route('user.form-report.index') }}">
+                    <a class="nav-link {{ str_contains(request()->url(), 'form-report/create') == true ? 'active' : '' }}"
+                        href="{{ route('user.form-report.create') }}">
                         <div
                             class="icon icon-shape icon-md border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-fat-add text-warning text-sm opacity-10"></i>
@@ -101,7 +101,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ str_contains(request()->url(), 'daftar-laporan') == true ? 'active' : '' }}"
-                        href="{{ route('page', ['page' => 'daftar-laporan']) }}">
+                        href="{{ route('user.form-report.index') }}">
                         <div
                             class="icon icon-shape icon-md border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-collection text-warning text-sm opacity-10"></i>

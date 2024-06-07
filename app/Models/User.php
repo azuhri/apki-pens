@@ -49,10 +49,21 @@ class User extends Authenticatable
      * Always encrypt the password when it is updated.
      *
      * @param $value
-    * @return string
-    */
+     * @return string
+     */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (empty($user->color)) {
+                $user->color_hex = sprintf('%06X', mt_rand(0, 0xFFFFFF));
+            }
+        });
     }
 }

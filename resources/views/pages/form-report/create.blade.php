@@ -12,7 +12,7 @@
                         </div>
                     </div>
 
-                    <div class="card-body">
+                    <form class="card-body" onsubmit="submitReport(event, this)">
                         <div class="accordion accordion-flush" id="accordionExample">
                             @php
                                 $counter = 0;
@@ -39,18 +39,21 @@
                                 </div>
                             @endforeach
                         </div>
+                        <div style="display: none" id="errorMessage" class="alert text-center alert-danger font-weight-bold text-white"
+                            role="alert">
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Judul Laporan</label>
-                                    <input class="form-control" placeholder="Masukan judul laporan kerusakan"
+                                    <input class="form-control" id="title" placeholder="Masukan judul laporan kerusakan"
                                         type="text">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Lokasi Kerusakan</label>
-                                    <select class="form-control my-4" name="location" id="location">
+                                    <select class="form-control my-4" name="location_id" id="location_id">
                                         @foreach ($locations as $loc)
                                             <option value="{{ $loc->id }}">{{ $loc->location_name }}</option>
                                         @endforeach
@@ -60,8 +63,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Keterangan</label>
-                                    <textarea class="form-control" placeholder="Deskripsikan bentuk kerusakan yang terjadi" id="exampleFormControlTextarea1"
-                                        rows="5"></textarea>
+                                    <textarea class="form-control" placeholder="Deskripsikan bentuk kerusakan yang terjadi" id="description" rows="5"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -79,11 +81,11 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn d-flex align-items-center btn-primary btn-md float-right">
+                        <button type="submit" class="btn d-flex align-items-center btn-primary btn-md float-right">
                             {{-- <svg style="margin-right: 4px"  viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> --}}
                             Submit
                         </button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -108,4 +110,52 @@
         });
         $('#location').select2();
     });
+
+    const submitReport = (e, self) => {
+        e.preventDefault();
+
+        let dataForm = new FormData();
+        dataForm.append("title", $("#title").val())
+        dataForm.append("location_id", $("#location_id").val())
+        dataForm.append("description", $("#description").val())
+        dataForm.append("_token", '{{ csrf_token() }}')
+        let counter = 0;
+        $(self).find("input[type='file']").each(function(idx, el) {
+            let file = $(this)[0].files[0]
+            if (file) {
+                dataForm.append("doc" + counter++, file);
+            }
+        });
+        $.ajax({
+            url: '{{ route('user.form-report.store') }}',
+            type: "POST",
+            contentType: false, // Tidak mengatur header konten
+            processData: false, // Tidak memproses data
+            async: true,
+            dataType: "json",
+            beforeSend: function() {
+                $(self).find("button[type='submit']").html(`<div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>`).attr("disabled", true);
+            },
+            data: dataForm,
+            success: function(res) {
+                setTimeout(() => {
+                    window.location.href = "{{route('user.my-report.index')}}";
+                }, 2000);
+            },
+            error: function(err) {
+                let errorMessage = err.responseJSON.error;
+                $("#errorMessage").html(errorMessage);
+                $("#errorMessage").show(200);
+                setTimeout(() => {
+                    $("#errorMessage").hide(200);
+                }, 3000);
+            },
+            
+            complete: function() {
+                // $(self).find("button[type='submit']").html(`Submit`);
+            }
+        });
+    }
 </script> @endpush

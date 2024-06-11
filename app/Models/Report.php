@@ -14,6 +14,7 @@ class Report extends Model
         "user_id",
         "approved_by",
         "location_id",
+        "status",
     ];
 
     public function user() {
@@ -25,6 +26,10 @@ class Report extends Model
     }
 
     public function approvedBy() {
-        return $this->belongsTo(User::class, "approved_by", "id");
+        return $this->belongsTo(User::class, "approved_by", "id") ?? \null;
+    }
+
+    public function docs() {
+        return $this->hasMany(ReportDoc::class, "report_id");
     }
 }

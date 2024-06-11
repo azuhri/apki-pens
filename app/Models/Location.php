@@ -16,4 +16,12 @@ class Location extends Model
     public function updateBy() {
         return $this->belongsTo(User::class, "updated_by", "id");
     }
+
+    public function reports() {
+        return $this->hasMany(Report::class, "report_id", "id");
+    }
+
+    public function newReports() {
+        return $this->hasMany(Report::class, "location_id", "id")->where("status", "BARU");
+    }
 }

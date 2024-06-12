@@ -45,14 +45,14 @@ class FormReportController extends Controller
                 "description.min" => "Keterangan tidak boleh terlalu singkat",
             ]);
 
-            if (!$request->file("doc1")) {
+            if (!$request->file("doc0") && !$request->file("doc1") && !$request->file("doc2")) {
                 throw new Exception("Silahkan upload minimal 1 foto kerusakan");
             }
 
             DB::beginTransaction();
             $newReport = $this->reportRepo->createOrUpdate([
                 "user_id" => Auth::id(),
-                "status" => "PENDING",
+                "status" => "BARU",
                 ...$request->toArray(),
             ]);
 

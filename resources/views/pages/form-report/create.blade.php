@@ -154,7 +154,7 @@
             },
             
             complete: function() {
-                // $(self).find("button[type='submit']").html(`Submit`);
+                $(self).find("button[type='submit']").html(`Submit`);
             }
         });
     }

@@ -26,6 +26,14 @@ use App\Http\Controllers\ReportController;
 */
 
 
+Route::view("email", "email.notif-email-report", [
+	"reporterName" => "Azis Zuhri Pratomo",   
+	"statusPelapor" => "DOSEN",   
+	"title" => "AC Rusak di ruang kesehatan",   
+	"description" => "AC Rusak di ruang kesehatan sehingga ruangan jadi pengap dan panas",   
+]);
+
+
 Route::get('/', function () {
 	return redirect('/dashboard');
 })->middleware('auth');

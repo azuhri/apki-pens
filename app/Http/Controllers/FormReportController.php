@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Models\Map;
 use App\Models\ReportDoc;
+use App\Models\User;
 use App\Repositories\ReportRepository\ReportRepositoryInterface;
+use App\Services\EmailService\EmailServiceInterface;
 use App\Services\FileService\FileServiceInterface;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,14 +16,16 @@ use Illuminate\Support\Facades\DB;
 
 class FormReportController extends Controller
 {
-    private $fileService, $reportRepo;
+    private $fileService, $reportRepo, $email;
 
     public function __construct(
         FileServiceInterface $fileService,
         ReportRepositoryInterface $reportRepo,
+        EmailServiceInterface $email,
     ) {
         $this->fileService = $fileService;
         $this->reportRepo = $reportRepo;
+        $this->email = $email;
     }
 
     public function create()
@@ -71,6 +75,23 @@ class FormReportController extends Controller
                     $dataImage[] = $newArray;
                 }
             }
+
+            $saprasAdmins = User::where("type_role", 1)->pluck("email");
+
+            $this->email->sendEmail([
+                "subject" => "Laporan Masuk Dari ".Auth::user()->type_user." a.n ".Auth::user()->name." Pada Web APKI PENS",
+                "receiver" => [
+                    Auth::user()->email,
+                    ...$saprasAdmins->toArray()
+                ],
+                "view" => "email.notif-email-report",
+                "withData" => [
+                    "reporterName" => Auth::user()->name,   
+                    "statusPelapor" => Auth::user()->type_user,   
+                    "title" => $newReport->title,   
+                    "description" => $newReport->description,   
+                ]
+            ]);
 
             ReportDoc::insert($dataImage);
             DB::commit();

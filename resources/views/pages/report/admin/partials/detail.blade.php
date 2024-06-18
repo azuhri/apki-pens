@@ -63,7 +63,9 @@
                     <a class="btn btn-info" style="margin-right: 4px" href="https://wa.me/{{str_replace("08","62",$data->user->phonenumber)}}" target="_blank">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                         Chat WA</a>
-                    <button onclick="updateStatus({{$data->id}}, 'SELESAI')" class="btn btn-success">Selesaikan Laporan</button>
+                    @if ($data->status == "DIPROSES")
+                        <button onclick="updateStatus({{$data->id}}, 'SELESAI')" class="btn btn-success">Selesaikan Laporan</button>
+                    @endif
                 @endif
             </div>
         </div>

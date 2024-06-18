@@ -50,12 +50,16 @@ class PageController extends Controller
             ];
         } else {
             $params  = [
-                "myReport" => count($this->reportRepo->getAll()),
+                "myReport" => count($this->reportRepo->getAll([
+                    "user_id" => Auth::id(),
+                ])),
                 "myFinishedReport" => count($this->reportRepo->getAll([
                     "status" => "SELESAI",
+                    "user_id" => Auth::id(),
                 ])),
                 "myApprovedReport" => count($this->reportRepo->getAll([
                     "status" => "DIPROSES",
+                    "user_id" => Auth::id(),
                 ])),
             ];
         }

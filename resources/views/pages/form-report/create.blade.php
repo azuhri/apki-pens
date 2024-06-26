@@ -62,6 +62,15 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label for="category" class="form-control-label">Kategori Kerusakan</label>
+                                    <select class="form-control" name="category" id="category">
+                                        <option value="RINGAN">RINGAN</option>
+                                        <option value="BERAT">BERAT</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
                                     <label for="example-text-input" class="form-control-label">Keterangan</label>
                                     <textarea class="form-control" placeholder="Deskripsikan bentuk kerusakan yang terjadi" id="description" rows="5"></textarea>
                                 </div>
@@ -101,14 +110,16 @@
         }
     </style>
 @endsection
-@push('js') <script src="{{ asset('assets/js/dropify.js') }}"></script> <script src="{{ asset('assets/js/select2.js') }}"></script> <script>
+@push('js')
+    <script src="{{ asset('assets/js/dropify.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.js') }}"></script> <script>
     $(document).ready(function() {
         $('.dropify').dropify({
             messages: {
                 'default': 'Drag dan drop filenya disini atau klik',
             }
         });
-        $('#location').select2();
+        $('#location_id').select2();
     });
 
     const submitReport = (e, self) => {
@@ -117,6 +128,7 @@
         let dataForm = new FormData();
         dataForm.append("title", $("#title").val())
         dataForm.append("location_id", $("#location_id").val())
+        dataForm.append("category", $("#category").val())
         dataForm.append("description", $("#description").val())
         dataForm.append("_token", '{{ csrf_token() }}')
         let counter = 0;

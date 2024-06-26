@@ -15,6 +15,8 @@ class Report extends Model
         "approved_by",
         "location_id",
         "status",
+        "category",
+        "estimation_date"
     ];
 
     public function user() {

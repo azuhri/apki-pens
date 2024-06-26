@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Location;
 use App\Repositories\ReportRepository\ReportRepositoryInterface;
 use App\Services\JsonService\JsonServiceInterface;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,14 +79,33 @@ class ReportController extends Controller
 
     public function update(Request $request, $id) {
         try {
+            if($request->status == "DIPROSES") {
+                $request->validate([
+                    "estimation_date" => ["required"],
+                ], [
+                    "estimation_date.required" => "Silahkan isi perkiraan waktu penyelesaian laporan ini",
+                ]);
+            }
+
             $findData = $this->reportRepo->getDataById($id);
             if(!$findData) {
                 throw new Exception("Report not valid!");
             }
 
+            $additionalParams = [];
+            if($request->estimation_date) {
+                $additionalParams["estimation_date"] = date("Y-m-d", strtotime($request->estimation_date));
+                $dateNow = Carbon::now()->format("Y-m-d");
+                $estimationDate = Carbon::parse($additionalParams["estimation_date"]);
+                if($dateNow > $estimationDate) {
+                    throw new Exception("Estimasi penyelesain tidak boleh hari yang telah berlalu");
+                }
+            }
+
             $data = $this->reportRepo->createOrUpdate([
                 "status" => $request->status,
                 "approved_by" => $request->approved_by,
+                ...$additionalParams,
             ], $findData->id);
         return $this->json->responseDataWithMessage($data, "Berhasil submit data");
         } catch (\Throwable $th) {

@@ -23,6 +23,10 @@ class ReportRepository implements ReportRepositoryInterface {
             $query->where("location_id", $filters["location_id"]);
         }
 
+        if(!empty($filters["category"])) {
+            $query->where("category", $filters["category"]);
+        }
+
         if(!empty($filters["status"])) {
             $query->where("status", $filters["status"]);
         }

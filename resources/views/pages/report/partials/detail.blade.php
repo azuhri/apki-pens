@@ -7,14 +7,38 @@
                     style="font-size: 12px; background-color:cadetblue">{{ $data->status }}</span>
                 <span class="font-weight-bold text-white p-1 px-2 rounded-2"
                     style="font-size: 12px; background-color:orange; margin-left: 4px">{{ $data->user->type_user }}</span>
-                <span class="font-weight-bold text-white p-1 px-2 rounded-2"
+                <span class="font-weight-bold text-white p-1 px-2 rounded-2 text-uppercase"
                     style="font-size: 12px; background-color: cornflowerblue; margin-left: 4px">{{ $data->location->location_name }}</span>
+                @php
+                    $color = "green";
+                    if($data->category == "BERAT") {
+                        $color = "red";
+                    }
+                @endphp
+                <span class="font-weight-bold text-white p-1 px-2 rounded-2"
+                    style="font-size: 12px; background-color: {{$color}}; margin-left: 4px">KERUSAKAN {{ $data->category }}</span>
             </div>
             @if ($data->approved_by)
                 <div class="mt-2">
-                    <p>{{ $data->status == 'DIPROSES' ? 'Diproses' : 'Diselesaikan' }} oleh <span
+                    <p class="m-0">{{ $data->status == 'DIPROSES' ? 'Diproses' : 'Diselesaikan' }} oleh <span
                             class="text-primary font-weight-bold">{{ $data->approvedBy->name }} -
                             ({{ $data->approvedBy->email }})</span></p>
+                </div>
+            @endif
+            @if ($data->estimation_date && $data->status == "DIPROSES")
+                @php
+                    $dateNow = new DateTime();
+                    $estimationDate = new DateTime(($data->estimation_date));
+                    $diffDate = date_diff($estimationDate, $dateNow);
+                    if($dateNow > $estimationDate) {
+                        $diffDate = "Terlambat ".($diffDate->days)." Hari";
+                    } else {
+                        $diffDate = ($diffDate->days+1)." Hari Lagi";
+                    }
+                @endphp
+                <div class="mt-1">
+                    <p class="m-0">Estimasi Penyelesaian: <span class="font-weight-bold">{{ date('d F Y', strtotime($data->estimation_date)) }}</span><span
+                            class="text-primary font-weight-bold"> ({{$diffDate}})</span></p>
                 </div>
             @endif
         </div>
@@ -30,7 +54,8 @@
                 alt="">
             <div class="mx-2 mt-1 d-flex flex-column">
                 <small class="font-weight-bold m-0">{{ $data->user->name }}</small>
-                <small style="font-size: 12px" class="m-0">{{ date("d F Y H:i", strtotime($data->created_at)) }}</small>
+                <small style="font-size: 12px"
+                    class="m-0">{{ date('d F Y H:i', strtotime($data->created_at)) }}</small>
             </div>
             <div class="my-3">
                 {{ $data->description }}

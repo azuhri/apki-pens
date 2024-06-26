@@ -116,7 +116,7 @@
                                             </td>
                                             <td>
                                                 <div class="text-center">
-                                                    <p class="text-xs font-weight-bold mb-0">Laporan Masuk:</p>
+                                                    <p class="text-xs font-weight-bold mb-0">Total Laporan:</p>
                                                     <h6 class="text-sm mb-0">{{ count($loc->newReports) }}</h6>
                                                 </div>
                                             </td>

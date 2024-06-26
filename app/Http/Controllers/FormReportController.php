@@ -40,6 +40,7 @@ class FormReportController extends Controller
     {
         try {
             $request->validate([
+                "category" => ["required"],
                 "title" => ["required", "max:70"],
                 "location_id" => ["required", "numeric"],
                 "description" => ["required", "min:10"],

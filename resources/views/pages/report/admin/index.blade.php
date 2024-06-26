@@ -122,6 +122,12 @@
                                         <option value="{{ $loc->id }}">{{ $loc->location_name }}</option>
                                     @endforeach
                                 </select>
+                                <select onchange="changeCategory(this);" class="form-select my-2"
+                                    aria-label="Default select example">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="RINGAN">KERUSAKAN RINGAN</option>
+                                    <option value="BERAT">KERUSAKAN BERAT</option>
+                                </select>
                                 <div class="btn-group my-2" role="group" aria-label="Basic radio toggle button group">
                                     <input onchange="radioStatus(this);" checked type="radio" class="btn-check"
                                         name="radioStatus" id="new_report" autocomplete="off">
@@ -394,13 +400,13 @@
             return component;
         }
 
-        let search, orderBy, sortBy, status, typeUser, locationId, approvedBy;
+        let search, orderBy, sortBy, status, typeUser, locationId, approvedBy, category;
 
         const getData = async () => {
             let loading = skeleton(2);
             $("#containerData").html(loading)
             await fetch(
-                    `{{ route('admin.report.list') }}?order_by=${orderBy ?? ''}&sort_by=${sortBy ?? ''}&status=${status ?? 'BARU'}&type_user=${typeUser ?? ''}&location_id=${locationId ?? ''}&approved_by=${approvedBy ?? ''}&search=${search ?? ''}`
+                    `{{ route('admin.report.list') }}?order_by=${orderBy ?? ''}&sort_by=${sortBy ?? ''}&status=${status ?? 'BARU'}&type_user=${typeUser ?? ''}&location_id=${locationId ?? ''}&category=${category ?? ''}&approved_by=${approvedBy ?? ''}&search=${search ?? ''}`
                 )
                 .then(response => {
                     if (!response.ok) {
@@ -461,6 +467,11 @@
             getData();
         }
 
+        const changeCategory = (self) => {
+            category = $(self).val();
+            getData();
+        }
+
         const changeTypeUser = (self) => {
             typeUser = $(self).val();
             getData();
@@ -512,6 +523,7 @@
                         dataType: "json",
                         data: {
                             status,
+                            estimation_date: $("#estimation_date").val(),
                             approved_by: '{{ Auth::id() }}',
                             _token: "{{ csrf_token() }}"
                         },
@@ -522,9 +534,10 @@
                         error: function(err) {
                             let errorMessage = err.responseJSON.errors;
                             Swal.fire({
-                                icon: "error",
-                                title: "Terjadi Kesalahan!",
+                                icon: "warning",
+                                title: "Peringatan!",
                                 text: errorMessage,
+                                timer: 4000,
                             });
                         },
                         complete: function() {

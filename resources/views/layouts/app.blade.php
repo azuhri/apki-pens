@@ -75,10 +75,6 @@
     {{-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script> --}}
     @stack('js');
 
-    <!-- Datatable -->
-    <script>
-        new DataTable('#example');
-    </script>
 </body>
 
 </html>

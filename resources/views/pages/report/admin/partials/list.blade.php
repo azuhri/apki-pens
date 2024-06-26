@@ -14,6 +14,10 @@
                 $colorStatus = 'cadetblue';
                 break;
         }
+        $categoryStyle = "green";
+        if($item["category"] == "BERAT") {
+            $categoryStyle = "red";
+        }
     @endphp
     <div onclick="selectedData(this, {{ $item['id'] }});"
         class="p-3 border mb-2 border-1 rounded-3 shadow cursor-pointer position-relative">
@@ -26,11 +30,14 @@
                     <small class="font-weight-bold m-0">{{ $item['user']['name'] }}</small>
                     <small style="font-size: 12px" class="m-0">{{ $item['created_at'] }}</small>
                     <span class="text-xxs font-weight-bold text-white p-1 px-2 rounded-2 text-center position-absolute"
-                    style="font-size: 12px; background-color:orange; top: 5px; right:5px">{{$item["user"]["type_user"]}}</span>
+                        style="font-size: 12px; background-color:orange; top: 5px; right:5px">{{ $item['user']['type_user'] }}</span>
+                    <span class="text-xxs font-weight-bold text-white p-1 px-2 rounded-2 text-center position-absolute"
+                        style="font-size: 12px; background-color:{{$categoryStyle}}; top: 35px; right:5px">{{ $item["category"] }}</span>
                 </div>
             </div>
         </div>
-        <small class="font-weight-bold">{{ strlen($item['title']) >= $maxChar ? substr($item['title'], 0, $maxChar)."..." : $item["title"]  }}</small>
+        <small
+            class="font-weight-bold">{{ strlen($item['title']) >= $maxChar ? substr($item['title'], 0, $maxChar) . '...' : $item['title'] }}</small>
         <div class="mt-3 d-flex">
             <div class="d-flex justify-content-center">
                 <span class="text-xs font-weight-bold text-white p-1 px-2 rounded-2"

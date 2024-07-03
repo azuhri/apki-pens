@@ -33,7 +33,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Pelapor</p>
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Laporan</p>
                                         <h5 class="font-weight-bolder">
                                             {{ count($reporter) }}
                                         </h5>
